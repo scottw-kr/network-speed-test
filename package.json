@@ -1,0 +1,14 @@
+{
+  "name": "network-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "network-speed": "^2.1.1"
+  }
+}
