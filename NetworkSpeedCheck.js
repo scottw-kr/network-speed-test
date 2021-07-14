@@ -1,5 +1,5 @@
-const http = require('http');
-let { URL, Url } = require('url');
+const http = require("http");
+let { URL, Url } = require("url");
 /**
  * Use the default Node URL Class if found i.e. Inside a Node environment
  * to allow http and https, otherwise use the Url consturctor for browser environments
@@ -10,29 +10,31 @@ URL = URL ? URL : Url;
 const chars =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*()_+`-=[]{}|;':,./<>?";
 
-class NetworkSpeedCheck { 
+class NetworkSpeedCheck {
   checkDownloadSpeed() {
     let startTime;
-    const mbInBytes = 1000000;
-    const fileUrl = 'http://gist.githubusercontent.com/khaykov/a6105154becce4c0530da38e723c2330/raw/41ab415ac41c93a198f7da5b47d604956157c5c3/gistfile1.txt';
+    const mbInBytes = 1_093_957;
+    const fileUrl =
+      "http://gist.githubusercontent.com/khaykov/a6105154becce4c0530da38e723c2330/raw/41ab415ac41c93a198f7da5b47d604956157c5c3/gistfile1.txt";
 
     return new Promise((resolve, _) => {
       return http.get(
         {
-          host: 'proxy.ha.kroger.com',
-          port: '3128',
+          host: "proxy.ha.kroger.com",
+          port: "3128",
           path: fileUrl,
           headers: {
-              Host: 'gist.githubusercontent.com'
-          }
-        }, response => {
-          response.once('data', () => {
-            console.log('started')
+            Host: "gist.githubusercontent.com",
+          },
+        },
+        (response) => {
+          response.once("data", () => {
+            console.log("started");
             startTime = new Date().getTime();
           });
 
-          response.once('end', () => {
-            console.log('ended')
+          response.once("end", () => {
+            console.log("ended");
             const endTime = new Date().getTime();
             const duration = (endTime - startTime) / 1000;
             // Convert bytes into bits by multiplying with 8
@@ -40,12 +42,12 @@ class NetworkSpeedCheck {
             const bps = (bitsLoaded / duration).toFixed(2);
             const kbps = (bps / 1000).toFixed(2);
             const mbps = (kbps / 1000).toFixed(2);
-            
+
             resolve({ duration, mbps });
           });
         }
       );
-    }).catch(error => {
+    }).catch((error) => {
       throw new Error(error);
     });
   }
@@ -89,7 +91,7 @@ class NetworkSpeedCheck {
 
   generateTestData(sizeInKmb) {
     const iterations = sizeInKmb * 1000; //get byte count
-    let result = '';
+    let result = "";
     for (var index = 0; index < iterations; index++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
