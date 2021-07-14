@@ -52,42 +52,42 @@ class NetworkSpeedCheck {
     });
   }
 
-  // checkUploadSpeed(options, fileSizeInBytes = 2000000) {
-  //   let startTime;
-  //   const defaultData = this.generateTestData(fileSizeInBytes / 1000);
-  //   const data = JSON.stringify({ defaultData });
-  //   return new Promise((resolve, reject) => {
-  //     let req = http.request(options, res => {
-  //       res.setEncoding("utf8");
-  //       res.on('data', () => {});
-  //       res.on("end", () => {
-  //         const endTime = new Date().getTime();
-  //         const duration = (endTime - startTime) / 1000;
-  //         const bitsLoaded = fileSizeInBytes * 8;
-  //         const bps = (bitsLoaded / duration).toFixed(2);
-  //         const kbps = (bps / 1000).toFixed(2);
-  //         const mbps = (kbps / 1000).toFixed(2);
-  //         resolve({ bps, kbps, mbps });
-  //       });
-  //     });
-  //     startTime = new Date().getTime();
-  //     req.on('error', error => {
-  //       reject(error)
-  //     });
-  //     req.write(data)
-  //     req.end()
-  //   })
-  // }
+  checkUploadSpeed(options, fileSizeInBytes = 2000000) {
+    let startTime;
+    const defaultData = this.generateTestData(fileSizeInBytes / 1000);
+    const data = JSON.stringify({ defaultData });
+    return new Promise((resolve, reject) => {
+      let req = http.request(options, (res) => {
+        res.setEncoding("utf8");
+        res.on("data", () => {});
+        res.on("end", () => {
+          const endTime = new Date().getTime();
+          const duration = (endTime - startTime) / 1000;
+          const bitsLoaded = fileSizeInBytes * 8;
+          const bps = (bitsLoaded / duration).toFixed(2);
+          const kbps = (bps / 1000).toFixed(2);
+          const mbps = (kbps / 1000).toFixed(2);
+          resolve({ bps, kbps, mbps });
+        });
+      });
+      startTime = new Date().getTime();
+      req.on("error", (error) => {
+        reject(error);
+      });
+      req.write(data);
+      req.end();
+    });
+  }
 
-  // validateDownloadSpeedParams(baseUrl, fileSizeInBytes) {
-  //   if (typeof baseUrl !== 'string') {
-  //     throw new Error('baseUrl must be a string')
-  //   }
-  //   if (typeof fileSizeInBytes !== 'number') {
-  //     throw new Error('fileSizeInBytes must be a number')
-  //   }
-  //   return
-  // }
+  validateDownloadSpeedParams(baseUrl, fileSizeInBytes) {
+    if (typeof baseUrl !== "string") {
+      throw new Error("baseUrl must be a string");
+    }
+    if (typeof fileSizeInBytes !== "number") {
+      throw new Error("fileSizeInBytes must be a number");
+    }
+    return;
+  }
 
   generateTestData(sizeInKmb) {
     const iterations = sizeInKmb * 1000; //get byte count
